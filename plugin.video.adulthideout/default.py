@@ -31,7 +31,7 @@ homemenu = xbmc.translatePath(os.path.join(home, 'resources', 'playlists'))
 
 #define webpages in order they were added.
 redtube = 'https://www.redtube.com'
-xvideos = 'http://www.xvideos.com'
+xvideos = 'https://www.xvideos.com'
 xhamster = 'https://xhamster.com'
 vikiporn = 'http://www.vikiporn.com'
 tube8 = 'http://www.tube8.com'
