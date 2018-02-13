@@ -842,14 +842,14 @@ def start(url):
         add_dir('[COLOR lime]Rankings[/COLOR]', xvideos + '/best' , 71, logos + 'xvideos.png', fanart)
         if 'profiles' in url:
             #match = re.compile('<a href="([^"]*)"><img src="([^"]+)"(.+?)title="([^"]*)">.+?<span class="duration">(.+?)</span>', re.DOTALL).findall(content)
-            match = re.compile('<a href="([^"]*)"><img src="([^"]+)"(.+?)<a href="(.+?)" title="([^"]*)".+?<span class="duration">(.+?)</span>', re.DOTALL).findall(content)
+            match = re.compile('<a href="([^"]*)"><img src="[^"]+" data-src="([^"]+)"(.+?)<a href="(.+?)" title="([^"]*)".+?<span class="duration">(.+?)</span>', re.DOTALL).findall(content)
             #for url, thumb, dummy, name, duration in match:
             for url, thumb, dummy, url, name, duration in match:
                 name = name.replace('&amp;', '&').replace('&quot;', '"').replace('&#39;', '`')
                 url = url.replace('THUMBNUM/','')
                 add_link(name + ' [COLOR lime]('+ duration + ')[/COLOR]', xvideos + url, 4, thumb, fanart)
         else:
-            match = re.compile('<a href="([^"]*)"><img src="([^"]+)"(.+?)<a href="(.+?)" title="([^"]*)".+?<span class="duration">(.+?)</span>', re.DOTALL).findall(content)
+            match = re.compile('<a href="([^"]*)"><img src="[^"]+" data-src="([^"]+)"(.+?)<a href="(.+?)" title="([^"]*)".+?<span class="duration">(.+?)</span>', re.DOTALL).findall(content)
             for url, thumb, dummy, url, name, duration in match:
                 name = name.replace('&amp;', '&').replace('&quot;', '"').replace('&#39;', '`')
                 url = url.replace('THUMBNUM/','')
