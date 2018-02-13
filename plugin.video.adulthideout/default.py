@@ -841,13 +841,15 @@ def start(url):
         add_dir('[COLOR lime]Pornstars[/COLOR]', xvideos + '/pornstars/2weeks',  32, logos + 'xvideos.png', fanart)
         add_dir('[COLOR lime]Rankings[/COLOR]', xvideos + '/best' , 71, logos + 'xvideos.png', fanart)
         if 'profiles' in url:
-            match = re.compile('<a href="([^"]*)"><img src="([^"]+)"(.+?)title="([^"]*)">.+?<strong>(.+?)</strong>', re.DOTALL).findall(content)
-            for url, thumb, dummy, name, duration in match:
+            #match = re.compile('<a href="([^"]*)"><img src="([^"]+)"(.+?)title="([^"]*)">.+?<span class="duration">(.+?)</span>', re.DOTALL).findall(content)
+            match = re.compile('<a href="([^"]*)"><img src="([^"]+)"(.+?)<a href="(.+?)" title="([^"]*)".+?<span class="duration">(.+?)</span>', re.DOTALL).findall(content)
+            #for url, thumb, dummy, name, duration in match:
+            for url, thumb, dummy, url, name, duration in match:
                 name = name.replace('&amp;', '&').replace('&quot;', '"').replace('&#39;', '`')
                 url = url.replace('THUMBNUM/','')
                 add_link(name + ' [COLOR lime]('+ duration + ')[/COLOR]', xvideos + url, 4, thumb, fanart)
         else:
-            match = re.compile('<a href="([^"]*)"><img src="([^"]+)"(.+?)<a href="(.+?)" title="([^"]*)".+?<strong>(.+?)</strong>', re.DOTALL).findall(content)
+            match = re.compile('<a href="([^"]*)"><img src="([^"]+)"(.+?)<a href="(.+?)" title="([^"]*)".+?<span class="duration">(.+?)</span>', re.DOTALL).findall(content)
             for url, thumb, dummy, url, name, duration in match:
                 name = name.replace('&amp;', '&').replace('&quot;', '"').replace('&#39;', '`')
                 url = url.replace('THUMBNUM/','')
@@ -1175,7 +1177,7 @@ def xvideos_pornstars(url) :
     match = re.compile('"img":"([^"]+)"}].+?class="profile-name"><a href="([^"]+)">([^"]+)</a><span class=".+?">', re.DOTALL).findall(content)
     for thumb, url, name in match:
         thumb = thumb.replace('\\', '')
-        add_dir(name, xvideos + url + '/videos/new', 2, thumb, fanart)
+        add_dir(name, xvideos + url + '#_tabVideos', 2, thumb, fanart)
     try:
         match = re.compile('<a class="active" href=".+?">.+?</a></li><li><a href="([^"]+)">.+?</a></li><li>', re.DOTALL).findall(content)
         add_dir('[COLOR blue]Next  Page  >>>>[/COLOR]', xvideos + match[0], 32, logos + 'xvideos.png', fanart)
