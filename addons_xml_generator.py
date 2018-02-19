@@ -28,6 +28,7 @@ class Generator:
             try:
                 # skip any file or .git folder
                 if ( not os.path.isdir( addon ) or addon == ".git" or addon == "zips" ): continue
+                if ( os.path.exists( os.path.join( addon, ".skip" ) )): continue
                 # create path
                 _path = os.path.join( addon, "addon.xml" )
                 # split lines for stripping

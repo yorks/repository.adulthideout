@@ -1166,7 +1166,7 @@ def heavyr_categories(url) :
 def xvideos_categories(url) :
     home()
     content = make_request(url)
-    match = re.compile('"url":"(.+?)","label":"(.+?)"', re.DOTALL).findall(content)
+    match = re.compile('<li class="dyn "><a class="btn btn-default" href="([^"]+)">([^<]+)</a></li>', re.DOTALL).findall(content)
     for url, name in match:
         url = url.replace('\\','')
         add_dir(name, xvideos + url, 2, logos + 'xvideos.png', fanart)
@@ -1406,6 +1406,19 @@ def decode_key(key):
 
 ####beeg added by Digonly end####
 
+def select_media_url(urls):
+    menu = []
+    for q, url in urls:
+        menu.append( q )
+    dialog = xbmcgui.Dialog()
+    call = dialog.select('choose the link', menu)
+    if call:
+        i = call - 1
+        media_url = urls[ i ][1]
+        item = xbmcgui.ListItem(name, path = media_url)
+        item.setMimeType('video/mp4')
+        xbmcplugin.setResolvedUrl(int(sys.argv[1]), True, item)
+
 
 def resolve_url(url):
     content = make_request(url)
@@ -1418,6 +1431,32 @@ def resolve_url(url):
             media_url = media_url.replace('(\'','').replace(')','').replace('hls.m3u8','hls-720p.m3u8').replace('\'','')
         else:
             media_url = urllib.unquote(re.compile("flv_url=(.+?)&amp").findall(content)[-1])
+        urls = []
+        low_url = None
+        med_url = None
+        high_url = None
+        if media_url:
+            high_url = media_url
+        try:
+            low_url = re.compile("html5player.setVideoUrlLow\('(.+?)'\);").findall(content) [0]
+        except:
+            pass
+
+        try:
+            med_url = re.compile("html5player.setVideoUrlHigh\('(.+?)'\);").findall(content) [0]
+        except:
+            pass
+        if low_url:
+            urls.append( ('low', low_url) )
+        if med_url:
+            urls.append( ('med', med_url) )
+        urls.append( ('high', high_url) )
+        return select_media_url
+
+
+
+
+
     elif 'tube8' in url:
         media_url = re.compile('videoUrlJS = "(.+?)"').findall(content)[0]
     elif 'redtube' in url:
