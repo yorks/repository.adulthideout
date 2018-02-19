@@ -1451,7 +1451,7 @@ def resolve_url(url):
         if med_url:
             urls.append( ('med', med_url) )
         urls.append( ('high', high_url) )
-        return select_media_url
+        return select_media_url(urls)
 
 
 
